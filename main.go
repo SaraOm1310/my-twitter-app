@@ -120,6 +120,7 @@ func postTweet(c *gin.Context) {
 func followUser(c *gin.Context) {
 	followerID := c.Query("follower_id")
 	followedID := c.Query("followed_id")
+	followerUser:=app.Users[followerID]
 
 	if _, exists := app.Users[followerID]; !exists {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Follower not found"})
@@ -131,7 +132,15 @@ func followUser(c *gin.Context) {
 		return
 	}
 
-	followerUser:=app.Users[followerID]
+
+	for _, followed:=range followerUser.Following{
+		if followed ==followedID{
+			c.JSON(http.StatusBadRequest, gin.H{"error": "This User is already followed up"})
+		return
+		}
+	}
+
+	
 	followerUser.Following = append(followerUser.Following, followedID)
 	c.Status(http.StatusOK)
 }
