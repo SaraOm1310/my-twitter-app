@@ -6,6 +6,7 @@ API Documentation
 Create User (POST /users)
 Create a new user.
 To create a new user copy this bash command, feel free to choose any id and any username:
+
 curl -X POST -H "Content-Type: application/json" -d '{"id": "1", "username": "user1", "following": []}' http://localhost:8080/users
 
 Find User (GET /users?id={userID})
