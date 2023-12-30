@@ -49,6 +49,12 @@ func createUser(c *gin.Context) {
 		return
 	}
 
+	// Ensure we don't have the same user id
+	if _, exists := app.Users[newUser.ID]; exists {
+		c.JSON(http.StatusNotFound, gin.H{"error": "user already exists"})
+		return
+	}
+
 	app.Users[newUser.ID] = newUser
 	c.Status(http.StatusCreated)
 }
@@ -125,8 +131,8 @@ func followUser(c *gin.Context) {
 		return
 	}
 
-	user:= app.Users[followedID]
-	user.Following = append(app.Users[followerID].Following, followedID)
+	followerUser:=app.Users[followerID]
+	followerUser.Following = append(followerUser.Following, followedID)
 	c.Status(http.StatusOK)
 }
 
@@ -146,8 +152,9 @@ func unfollowUser(c *gin.Context) {
 			updatedFollowing = append(updatedFollowing, followedID)
 		}
 	}
-	user:= app.Users[followerID]
-	user.Following = updatedFollowing
+
+	followerUser:=app.Users[followerID]
+	followerUser.Following = updatedFollowing
 
 	c.Status(http.StatusOK)
 }
