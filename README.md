@@ -27,12 +27,12 @@ curl -X POST -H "Content-Type: application/json" -d '{"id": "1", "userId": "user
 Follow User (POST /follow)
 Make a user follow another user.
 
-curl -X POST http://localhost:8080/follow?follower_id=1&followed_id=2
+curl -X POST "http://localhost:8080/follow?follower_id=1&followed_id=2"
 
 Unfollow User (DELETE /follow)
 Make a user unfollow another user.
 
-curl -X DELETE http://localhost:8080/follow?follower_id=1&unfollowed_id=2
+curl -X DELETE "http://localhost:8080/follow?follower_id=1&followed_id=2"
 
 User Wall (GET /wall?id={userID})
 Retrieve a user's wall.
